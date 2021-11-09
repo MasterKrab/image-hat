@@ -1,6 +1,6 @@
 import handleResponse from './handle-response'
 
-const API_URL = 'http://localhost:4000'
+const API_URL = 'https://image-tool-api.herokuapp.com'
 
 interface Parameters<TypeData> {
   route: 'convert' | 'metadata'
