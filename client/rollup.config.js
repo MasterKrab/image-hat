@@ -19,6 +19,8 @@ const extensions = ['.js', '.ts']
 
 const pagesFolder = path.join(__dirname, 'src/ts/pages')
 
+const createFolder = (folder) => !fs.existsSync(folder) && fs.mkdirSync(folder, { recursive: true })
+
 const getRoutes = () => {
   const routes = []
 
@@ -32,6 +34,10 @@ const getRoutes = () => {
 
       languages.forEach((language) => routes.push(`/${language}${page}`))
     })
+
+  routes.forEach((route) =>
+    createFolder(path.join(__dirname, 'public', route))
+  )
 
   return routes
 }
