@@ -1,0 +1,7 @@
+backend/node_modules/
+client/node_modules/
+backend/build
+client/public/**/*
+!client/public/assets
+!client/public/assets/*
+!client/public/assets/**/*

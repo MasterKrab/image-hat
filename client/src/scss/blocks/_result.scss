@@ -1,0 +1,24 @@
+@use "../helpers/button";
+
+.result {
+  font-size: 1.5rem;
+  color: var(--text-light);
+
+  &__image {
+    display: block;
+    width: 50%;
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  &__link {
+    @extend %button;
+    display: block;
+    width: min-content;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+    text-decoration: none;
+  }
+}

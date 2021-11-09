@@ -1,0 +1,18 @@
+@use "../helpers/reset-list";
+@use "../helpers/button";
+
+.menu {
+  @extend %reset-list;
+
+  &__link {
+    @extend %button;
+    display: block;
+    max-width: 300px;
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+    font-size: 1em;
+    text-decoration: none;
+  }
+}

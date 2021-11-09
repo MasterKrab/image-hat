@@ -1,0 +1,13 @@
+@use "../variables/breakpoints" as *;
+
+@mixin breakpoint($query, $breakpoint) {
+  $value: $breakpoint;
+
+  @if map-has-key($breakpoints, $breakpoint) {
+    $value: map-get($breakpoints, $breakpoint);
+  }
+
+  @media screen and (#{$query}: $value) {
+    @content;
+  }
+}

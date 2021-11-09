@@ -1,0 +1,39 @@
+@use "../helpers/button";
+@use "../helpers/outline";
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  font-size: min(1.2rem, 5.25vw);
+  text-align: center;
+  line-height: 2;
+
+  &__image {
+    width: 150px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+  }
+
+  &__text,
+  &__button {
+    font-size: var(--drop-zone-font-size, 1em);
+  }
+
+  &__text {
+    font-weight: 500;
+    color: var(--text-light);
+  }
+
+  &__button {
+    @extend %button;
+    cursor: pointer;
+  }
+}
+
+.drop-zone-input:focus-visible + .drop-zone > .drop-zone__button {
+  @extend %outline;
+}

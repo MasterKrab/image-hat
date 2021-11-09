@@ -1,0 +1,19 @@
+%hover-scale {
+  @media screen and (min-width: 768px) {
+    transition: transform 0.2s ease-in-out;
+    animation: scale 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@keyframes scale {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

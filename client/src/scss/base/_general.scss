@@ -1,0 +1,77 @@
+@use "../helpers/breakpoint" as b;
+@use "../helpers/scrollbar";
+@use "../helpers/outline";
+
+:root {
+  --font-primary: "Poppins", sans-serif;
+  --font-secondary: "Nunito Sans", "Poppins", sans-serif;
+  --bg-color: #fafafb;
+  --card-bg: #fff;
+  --text-color: #222222;
+  --text-light: #828282;
+  --element-color: #3f89dd;
+  --element-color-hover: #5c9ee9;
+  --element-color-light: #71c2ff;
+  --error: #f46262;
+}
+
+html {
+  color: var(--text-color);
+  box-sizing: border-box;
+
+  &[lang="fr"] {
+    --drop-zone-font-size: 0.95em;
+  }
+
+  &[lang="de"],
+  &[lang="ru"],
+  &[lang="it"] {
+    --drop-zone-font-size: 0.85em;
+  }
+
+  @include b.breakpoint("min-width", "tablet") {
+    background-image: url("/assets/illustrations/background.svg");
+    background-color: var(--bg-color);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  min-height: 565px;
+  padding: 1rem;
+  font-family: var(--font-primary);
+  @extend %scrollbar;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button,
+a {
+  cursor: pointer;
+
+  &:focus-visible {
+    @extend %outline;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

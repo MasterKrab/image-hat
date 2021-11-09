@@ -1,0 +1,50 @@
+@use "../helpers/button";
+@use "../helpers/reset-select";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 500;
+
+  &__image {
+    width: 150px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+  }
+
+  &__result-file {
+    margin-top: 1rem;
+    color: var(--text-light);
+  }
+
+  &__label-select {
+    font-size: 1.5rem;
+  }
+
+  &__select {
+    @extend %reset-select;
+    width: min-content;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    padding: 0.25rem 1rem;
+    border: 2px solid var(--element-color);
+    text-align: center;
+    outline: none;
+
+    &:focus {
+      border-color: #000;
+    }
+  }
+
+  &__submit {
+    @extend %button;
+    width: max-content;
+    margin-top: auto;
+    font-size: 1.5rem;
+  }
+}

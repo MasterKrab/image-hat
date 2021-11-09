@@ -1,0 +1,13 @@
+@use "../helpers/breakpoint" as b;
+
+@mixin hover($transition: false) {
+  @include b.breakpoint("min-width", "desktop") {
+    @if ($transition) {
+      transition: $transition;
+    }
+
+    &:hover {
+      @content;
+    }
+  }
+}

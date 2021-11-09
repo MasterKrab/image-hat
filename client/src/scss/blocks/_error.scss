@@ -1,0 +1,28 @@
+@keyframes show {
+  0% {
+    transform: translateX(150%);
+  }
+  20% {
+    transform: translateX(0);
+  }
+  80% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}
+
+.error {
+  position: fixed;
+  top: 0;
+  right: 1em;
+  z-index: 1000;
+  background-color: var(--error);
+  max-width: 350px;
+  padding: 1em;
+  border-radius: 0.35em;
+  font-size: min(1rem, 5vw);
+  color: #fff;
+  animation: show 3s ease;
+}

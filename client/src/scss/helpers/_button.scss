@@ -1,0 +1,16 @@
+@use "../helpers/hover" as h;
+
+%button {
+  background-color: var(--element-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--element-color);
+  font-size: 1.2rem;
+  transition: background-color 0.25s ease;
+  color: #fff;
+  pointer-events: all;
+
+  @include h.hover() {
+    background-color: var(--element-color-hover);
+  }
+}

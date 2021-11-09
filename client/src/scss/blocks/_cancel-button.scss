@@ -1,0 +1,17 @@
+@use "../helpers/reset-button";
+@use "../helpers/hover-scale";
+@use "../helpers/breakpoint" as b;
+
+.cancel-button {
+  @extend %reset-button;
+  @extend %hover-scale;
+  position: absolute;
+  top: min(30px, 7.5vw);
+  left: min(30px, 7.5vw);
+  width: 30px;
+
+  @include b.breakpoint("min-width", "tablet") {
+    top: 15px;
+    left: 15px;
+  }
+}

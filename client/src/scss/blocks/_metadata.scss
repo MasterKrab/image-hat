@@ -1,0 +1,54 @@
+@use "../helpers/reset-list";
+@use "../helpers/scrollbar";
+@use "../helpers/breakpoint" as b;
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.metadata {
+  @extend %reset-list;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  @extend %scrollbar;
+
+  &:not(:empty) {
+    animation: opacity 0.5s ease-in-out;
+  }
+
+  @include b.breakpoint("min-width", "tablet") {
+    width: calc(100% + 0.5rem);
+    height: 87.5%;
+    padding-right: 1rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--text-light);
+
+    @include b.breakpoint("max-width", "tablet") {
+      &:last-child {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__key,
+  &__value {
+    padding: 0.5rem;
+  }
+
+  &__key {
+    border-bottom: 2px solid var(--text-light);
+    font-weight: bold;
+  }
+}

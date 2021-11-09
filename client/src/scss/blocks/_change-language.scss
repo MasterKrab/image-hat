@@ -1,0 +1,103 @@
+@use "../helpers/reset-button";
+@use "../helpers/hover" as h;
+@use "../helpers/reset-list";
+@use "../helpers/breakpoint" as b;
+
+.change-language {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  font-size: min(1rem, 3.75vw);
+
+  &__button,
+  &__select-language {
+    @extend %reset-button;
+  }
+
+  &__button {
+    width: 40px;
+    height: 40px;
+    background-image: url("/assets/icons/language.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @include h.hover(transform 0.2s) {
+      transform: scale(1.05);
+    }
+  }
+
+  &__languages {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    width: max-content;
+    padding: 0.75em 1.5em 0.75em 0.75em;
+    background-color: var(--card-bg);
+    font-weight: bold;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: visibility 0.2s, opacity 0.2s, transform 0.2s ease-in-out;
+
+    &--active {
+      visibility: visible;
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &__buttons {
+    @extend %reset-list;
+    display: grid;
+    gap: 0.75em 0.5em;
+
+    @include b.breakpoint("min-width", "desktop") {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-auto-flow: column;
+    }
+  }
+
+  &__label {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__select-language {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.3rem 1.25rem 0.3rem 0.5rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.1s;
+
+    &:focus-visible {
+      background-color: var(--element-color-light);
+      outline: none;
+      color: #fff;
+    }
+
+    @include h.hover() {
+      background-color: var(--element-color-light);
+      color: #fff;
+    }
+
+    &--active {
+      background-image: url("/assets/icons/checkmark.svg");
+      background-size: 0.76em;
+      background-repeat: no-repeat;
+      background-position-x: calc(100% - 0.25rem);
+      background-position-y: center;
+    }
+  }
+
+  &__flag {
+    width: 1.4em;
+    margin: 0 0.3rem 0 0;
+    pointer-events: none;
+  }
+}
