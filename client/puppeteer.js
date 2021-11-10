@@ -1,5 +1,5 @@
 import chromium from 'chrome-aws-lambda'
-import puppeteer from 'puppeteer-core'
+import puppeteer from 'puppeteer'
 
 class Pupetter {
   async initialize () {

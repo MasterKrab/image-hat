@@ -42,7 +42,6 @@
     "postcss-focus-visible": "^6.0.1",
     "postcss-scrollbar": "^0.3.0",
     "prerender-spa-plugin": "^3.4.0",
-    "puppeteer": "^11.0.0",
     "rollup": "^2.59.0",
     "rollup-plugin-dev": "^2.0.0",
     "rollup-plugin-postcss": "^4.0.1",
@@ -54,6 +53,6 @@
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
     "core-js": "^3.19.1",
-    "puppeteer-core": "^11.0.0"
+    "puppeteer": "^11.0.0"
   }
 }
