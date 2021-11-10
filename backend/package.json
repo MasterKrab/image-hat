@@ -4,7 +4,7 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node build/index",
-    "build": "npx etsc && node ./build/index.js",
+    "build": "npx etsc",
     "dev": "nodemon"
   },
   "dependencies": {
