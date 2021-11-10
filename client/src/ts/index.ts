@@ -11,7 +11,7 @@ import loadChangeLanguage from './lib/load-change-language'
 import loadPage from './lib/load-page'
 import loadNewLanguage from './lib/load-new-language'
 
-(async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   await loadLanguage()
 
   if (!document.body.dataset.page) {
@@ -42,4 +42,4 @@ import loadNewLanguage from './lib/load-new-language'
 
     language !== currentLanguage ? loadNewLanguage(language) : loadPage()
   })
-})()
+})

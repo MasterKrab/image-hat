@@ -17,19 +17,28 @@ const loadLanguage = async (languageToChange?: string) => {
   }
 
   if (!document.body.dataset.page) {
-    const response = await fetch(`/translations/${languageToChange || window.currentLanguage}.json`)
-    const result = await response.json()
+    try {
+      const response = await fetch(`/translations/${languageToChange || window.currentLanguage}.json`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-type': 'application/json'
+        }
+      })
+      const result = await response.json()
 
-    window.translations = result
+      window.translations = result
 
-    const script = document.createElement('script')
-    script.id = 'translations-json'
-    script.type = 'application/json'
-    script.text = JSON.stringify(result)
+      const script = document.createElement('script')
+      script.id = 'translations-json'
+      script.type = 'application/json'
+      script.text = JSON.stringify(result)
 
-    languageToChange
-      ? getTranslationsScript()?.remove()
-      : document.head.insertBefore(script, document.getElementById('script')!)
+      languageToChange
+        ? getTranslationsScript()?.remove()
+        : document.head.insertBefore(script, document.getElementById('script')!)
+    } catch (error) {
+      console.error(error)
+    }
   } else {
     window.translations = JSON.parse(getTranslationsScript()!.textContent!)
   }

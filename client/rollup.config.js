@@ -13,11 +13,17 @@ import scrollbar from 'postcss-scrollbar'
 import sass from 'sass'
 import { terser } from 'rollup-plugin-terser'
 import dev from 'rollup-plugin-dev'
-import prerenderSpaPlugin from 'rollup-plugin-prerender-spa-plugin'
+import Prerenderer from '@prerenderer/prerenderer'
+import Puppeteer from '@prerenderer/renderer-puppeteer'
+import htmlMinifier from 'html-minifier'
 
 const extensions = ['.js', '.ts']
 
 const pagesFolder = path.join(__dirname, 'src/ts/pages')
+
+const publicFolder = path.join(__dirname, 'public')
+
+const template = fs.readFileSync(path.join(__dirname, 'src/template.html'))
 
 const createFolder = (folder) => !fs.existsSync(folder) && fs.mkdirSync(folder, { recursive: true })
 
@@ -28,16 +34,18 @@ const getRoutes = () => {
     .filter((file) => fs.lstatSync(path.join(pagesFolder, file)).isDirectory())
     .forEach((page) => {
       page = page === 'home' ? '' : page
-      page = page ? `/${page}` : '/'
+      page = page ? `/${page}/` : '/'
 
       routes.push(page)
 
       languages.forEach((language) => routes.push(`/${language}${page}`))
     })
 
-  routes.forEach((route) =>
-    createFolder(path.join(__dirname, 'public', route))
-  )
+  routes.forEach((route) => {
+    createFolder(path.join(publicFolder, route))
+
+    fs.writeFileSync(path.join(publicFolder, route, 'index.html'), template)
+  })
 
   return routes
 }
@@ -48,7 +56,7 @@ export default {
   input: 'src/ts/index.ts',
   output: {
     dir: 'public',
-    format: 'umd'
+    format: 'cjs'
   },
   plugins: [
     (() => ({
@@ -63,18 +71,13 @@ export default {
           })
         })
 
-        const translationsFolder = path.join(__dirname, 'public/translations')
+        const translationsFolder = path.join(publicFolder, 'translations')
 
         createFolder(translationsFolder)
 
         languages.forEach((language) => {
           fs.writeFileSync(path.join(translationsFolder, `${language}.json`), JSON.stringify(translationsResult[language]))
         })
-
-        fs.writeFileSync(
-          path.join(__dirname, 'public/index.html'),
-          fs.readFileSync(path.join(__dirname, 'src/template.html'))
-        )
       }
     }))(),
     nodeResolve(
@@ -122,9 +125,51 @@ export default {
     url(),
     terser(),
     dev({ dirs: ['public'], spa: true }),
-    prerenderSpaPlugin({
-      staticDir: path.resolve(__dirname, 'public'),
-      routes: getRoutes()
-    })
+    (() => ({
+      name: 'rollup-plugin-prerender',
+      buildEnd: async () => {
+        const renderRoutes = async (routes) => {
+          const renderer = new Puppeteer({
+            renderAfterElementExists: 'body',
+            waitUntil: 'load',
+            timeout: 0,
+            headless: true,
+            maxConcurrentRoutes: 1
+          })
+          const prerenderer = new Prerenderer({
+            renderer,
+            staticDir: path.resolve(publicFolder)
+          })
+
+          await prerenderer.initialize()
+          const rendered = await prerenderer.renderRoutes(routes)
+
+          for (const route of rendered) {
+            try {
+              createFolder(path.join(publicFolder, route.route))
+
+              const minifedHtml = htmlMinifier.minify(route.html, {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true
+              })
+
+              fs.writeFileSync(path.join(publicFolder, route.route, 'index.html'), minifedHtml)
+            } catch (e) {
+              console.warn(e)
+            }
+          }
+
+          prerenderer.destroy()
+        }
+
+        const routes = getRoutes()
+
+        await renderRoutes(routes)
+      }
+    }))()
   ]
 }

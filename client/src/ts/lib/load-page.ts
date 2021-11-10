@@ -1,7 +1,7 @@
 import languages from './languages'
 import getPages, { Page } from './pages'
 import printMetatags from './print-metatags'
-import page404 from '../pages/404/html'
+import page404 from '../pages/not-found/html'
 
 const loadPage = () => {
   const pathnames = window.location.pathname.split('/')
