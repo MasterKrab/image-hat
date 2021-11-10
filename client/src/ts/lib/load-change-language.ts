@@ -13,7 +13,7 @@ const loadChangeLanguage = () => {
 
   const toggleButton = document.createElement('button')
   toggleButton.setAttribute('role', 'switch')
-  toggleButton.setAttribute('aria-checked', 'true')
+  toggleButton.setAttribute('aria-checked', 'false')
   toggleButton.classList.add('change-language__button')
 
   const toggleButtonText = document.createElement('span')
@@ -69,6 +69,7 @@ const loadChangeLanguage = () => {
 
     languagesContainer.classList.remove('change-language__languages--active')
     toggleButton.classList.remove('change-language__button--active')
+    toggleButton.setAttribute('aria-checked', 'false')
     document.body.removeEventListener('click', handleClickBody)
   }
 
@@ -79,6 +80,7 @@ const loadChangeLanguage = () => {
       if (toggleButton.classList.contains('change-language__button--active')) return
 
       toggleButton.classList.add('change-language__button--active')
+      toggleButton.setAttribute('aria-checked', 'true')
       languagesContainer.classList.add('change-language__languages--active')
 
       setTimeout(() =>
@@ -88,7 +90,10 @@ const loadChangeLanguage = () => {
       return
     }
 
-    target.classList.contains('change-language__select-language') && router.changeLanguage(target.lang)
+    if (target.classList.contains('change-language__select-language')) {
+      languagesContainer.classList.remove('change-language__languages--active')
+      router.changeLanguage(target.lang)
+    }
   })
 
   changeLanguage.appendChild(languagesContainer)
