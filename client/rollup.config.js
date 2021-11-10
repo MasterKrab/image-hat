@@ -14,8 +14,10 @@ import sass from 'sass'
 import { terser } from 'rollup-plugin-terser'
 import dev from 'rollup-plugin-dev'
 import Prerenderer from '@prerenderer/prerenderer'
-import Puppeteer from '@prerenderer/renderer-puppeteer'
+import Pupetter from './puppeteer'
 import htmlMinifier from 'html-minifier'
+
+const isDev = process.env.NODE_ENV !== 'production'
 
 const extensions = ['.js', '.ts']
 
@@ -124,18 +126,12 @@ export default {
     }),
     url(),
     terser(),
-    dev({ dirs: ['public'], spa: true }),
+    isDev && dev({ dirs: ['public'], spa: true }),
     (() => ({
       name: 'rollup-plugin-prerender',
       buildEnd: async () => {
         const renderRoutes = async (routes) => {
-          const renderer = new Puppeteer({
-            renderAfterElementExists: 'body',
-            waitUntil: 'load',
-            timeout: 0,
-            headless: true,
-            maxConcurrentRoutes: 1
-          })
+          const renderer = new Pupetter()
           const prerenderer = new Prerenderer({
             renderer,
             staticDir: path.resolve(publicFolder)
@@ -145,25 +141,23 @@ export default {
           const rendered = await prerenderer.renderRoutes(routes)
 
           for (const route of rendered) {
-            try {
-              createFolder(path.join(publicFolder, route.route))
+            createFolder(path.join(publicFolder, route.route))
 
-              const minifedHtml = htmlMinifier.minify(route.html, {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeScriptTypeAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                useShortDoctype: true
-              })
+            const minifedHtml = htmlMinifier.minify(route.html, {
+              collapseWhitespace: true,
+              removeComments: true,
+              removeRedundantAttributes: true,
+              removeScriptTypeAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              useShortDoctype: true
+            })
 
-              fs.writeFileSync(path.join(publicFolder, route.route, 'index.html'), minifedHtml)
-            } catch (e) {
-              console.warn(e)
-            }
+            fs.writeFileSync(path.join(publicFolder, route.route, 'index.html'), minifedHtml)
           }
 
           prerenderer.destroy()
+
+          console.log(`Rendered ${routes.length} routes`)
         }
 
         const routes = getRoutes()
