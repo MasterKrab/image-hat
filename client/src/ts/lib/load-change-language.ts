@@ -88,22 +88,7 @@ const loadChangeLanguage = () => {
       return
     }
 
-    if (target.classList.contains('change-language__select-language')) {
-      // const pathnames = window.location.pathname.split('/')
-      // pathnames.shift()
-
-      // const language = target.lang
-
-      // if (languages.includes(pathnames[0])) pathnames.shift()
-
-      // const newPathname = `/${language}/${pathnames.join('/')}`
-
-      // window.location.href = newPathname
-
-      console.log(target)
-
-      router.changeLanguage(target.lang)
-    }
+    target.classList.contains('change-language__select-language') && router.changeLanguage(target.lang)
   })
 
   changeLanguage.appendChild(languagesContainer)

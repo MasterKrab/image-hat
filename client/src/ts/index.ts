@@ -9,6 +9,7 @@ import loadLanguage from './lib/load-language'
 import loadDefaultElements from './lib/load-default-elements'
 import loadChangeLanguage from './lib/load-change-language'
 import loadPage from './lib/load-page'
+import loadNewLanguage from './lib/load-new-language'
 
 (async () => {
   await loadLanguage()
@@ -27,4 +28,18 @@ import loadPage from './lib/load-page'
 
   loadChangeLanguage()
   loadPage()
+
+  window.addEventListener('popstate', (e: Event) => {
+    e.preventDefault()
+
+    const { lang } = document.documentElement
+    const { location, currentLanguage } = window
+    const { pathname } = location
+
+    if (pathname.startsWith(`/${lang}/`) && lang === currentLanguage) return loadPage()
+
+    const language = pathname.split('/')[1]
+
+    language !== currentLanguage ? loadNewLanguage(language) : loadPage()
+  })
 })()

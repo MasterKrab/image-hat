@@ -1,6 +1,5 @@
 import loadPage from './load-page'
-import loadLanguage from './load-language'
-import loadChangeLanguage from './load-change-language'
+import loadNewLanguage from './load-new-language'
 
 const changeRoute = (route: string) => window.history.pushState({}, '', route)
 
@@ -19,15 +18,7 @@ const changeLanguage = async (language: string) => {
   const { pathname } = window.location
   changeRoute(`/${language}${startsWithLanguage() ? pathname.slice(window.currentLanguage.length + 1) : pathname}`)
 
-  window.currentLanguage = language
-
-  document.body.removeAttribute('data-page')
-
-  await loadLanguage(language)
-
-  loadChangeLanguage()
-
-  loadPage()
+  loadNewLanguage(language)
 }
 
 export default { push, changeLanguage }

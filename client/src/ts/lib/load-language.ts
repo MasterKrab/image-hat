@@ -20,8 +20,6 @@ const loadLanguage = async (languageToChange?: string) => {
     const response = await fetch(`/translations/${languageToChange || window.currentLanguage}.json`)
     const result = await response.json()
 
-    console.log(result)
-
     window.translations = result
 
     const script = document.createElement('script')

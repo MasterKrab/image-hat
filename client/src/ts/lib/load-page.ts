@@ -33,10 +33,4 @@ const loadPage = () => {
   currentPageData.page && currentPageData.page()
 }
 
-window.addEventListener('popstate', (e: Event) => {
-  e.preventDefault()
-
-  loadPage()
-})
-
 export default loadPage
