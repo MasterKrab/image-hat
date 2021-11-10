@@ -4,6 +4,9 @@ import 'puppeteer-core'
 class Pupetter {
   async initialize () {
     this.puppeteer = await chromium.puppeteer.launch({
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
       headless: true,
       ignoreHTTPSErrors: true,
       timeout: 0
