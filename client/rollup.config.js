@@ -129,7 +129,9 @@ export default {
     isDev && dev({ dirs: ['public'], spa: true }),
     (() => ({
       name: 'rollup-plugin-prerender',
-      buildEnd: async () => {
+      closeBundle: async () => {
+        console.log('rollup-plugin-prerender: Running')
+
         const renderRoutes = async (routes) => {
           const renderer = new Pupetter()
           const prerenderer = new Prerenderer({
