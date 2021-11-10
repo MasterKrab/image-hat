@@ -1,9 +1,9 @@
 import chromium from 'chrome-aws-lambda'
-import 'puppeteer-core'
+import puppeteer from 'puppeteer-core'
 
 class Pupetter {
   async initialize () {
-    this.puppeteer = await chromium.puppeteer.launch({
+    this.puppeteer = await puppeteer.launch({
       args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
