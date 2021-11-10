@@ -42,12 +42,12 @@ const printMetatags = (title: string, description: string) => {
   document.head.querySelectorAll('.meta-tag').forEach((metaTag) => metaTag.remove())
 
   metadata.forEach((tagInfo) => {
-    Object.entries(tagInfo).forEach(([key, value]) => {
-      const metaTag = document.createElement('meta')
-      metaTag.classList.add('meta-tag')
-      metaTag.setAttribute(key, value)
-      titleElement.after(metaTag)
-    })
+    const metaTag = document.createElement('meta')
+    metaTag.classList.add('meta-tag')
+
+    Object.entries(tagInfo).forEach(([key, value]) => metaTag.setAttribute(key, value))
+
+    titleElement.after(metaTag)
   })
 }
 
