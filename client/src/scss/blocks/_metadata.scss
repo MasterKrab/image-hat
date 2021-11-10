@@ -27,6 +27,7 @@
   @include b.breakpoint("min-width", "tablet") {
     width: calc(100% + 0.5rem);
     height: 87.5%;
+    max-height: 400px;
     padding-right: 1rem;
   }
 
