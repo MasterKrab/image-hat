@@ -25,7 +25,7 @@ class Pupetter {
 
           page.setDefaultNavigationTimeout(0)
 
-          await page.goto(`http://localhost:${rootOptions.server.port}/${route}`, { waitUntil: 'networkidle0' })
+          await page.goto(`http://localhost:${rootOptions.server.port}${route}`, { waitUntil: 'networkidle0' })
 
           const result = {
             route,
