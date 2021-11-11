@@ -18,10 +18,6 @@ const fetchFile = async <TypeData, TypeResult>({ route, method = 'post', data }:
   const response = await window.fetch(`${API_URL}/${route}`, {
     method,
     body: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      'Accept-Type': 'application/json'
-    }
   })
 
   const result: TypeResult = await handleResponse(response)
